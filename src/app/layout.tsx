@@ -18,7 +18,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="pt-BR">
       <head>
         <meta name="lomadee" content="2324685" />
-        <meta name="impact-site-verification" value="4edeef75-288f-4c94-9727-f5e836577389" />
+        <meta name="impact-site-verification" content="4edeef75-288f-4c94-9727-f5e836577389" />
       </head>
       <body>{children}</body>
     </html>
