@@ -11,14 +11,18 @@ export const metadata: Metadata = {
     description: 'Radar de promoções de passagens aéreas',
     type: 'website',
   },
+  other: {
+    'lomadee': '2324685',
+    'impact-site-verification': '4edeef75-288f-4c94-9727-f5e836577389',
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="pt-BR">
       <head>
-        <meta name="lomadee" content="2324685" />
-        <meta name="impact-site-verification" content="4edeef75-288f-4c94-9727-f5e836577389" />
+        {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+        <meta name="impact-site-verification" {...{ value: '4edeef75-288f-4c94-9727-f5e836577389' } as any} />
       </head>
       <body>{children}</body>
     </html>
