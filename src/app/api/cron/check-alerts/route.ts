@@ -22,6 +22,21 @@ export async function GET(req: NextRequest) {
 
   if (!isDbAvailable()) return NextResponse.json({ error: 'DB indisponível' }, { status: 503 });
 
+  await query(`
+    CREATE TABLE IF NOT EXISTS price_alerts (
+      id               UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+      email            TEXT NOT NULL,
+      origin           CHAR(3) NOT NULL,
+      destination      CHAR(3) NOT NULL,
+      target_price     INTEGER NOT NULL,
+      is_round_trip    BOOLEAN NOT NULL DEFAULT FALSE,
+      active           BOOLEAN NOT NULL DEFAULT TRUE,
+      token            UUID NOT NULL DEFAULT gen_random_uuid(),
+      created_at       TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+      last_notified_at TIMESTAMPTZ
+    )
+  `);
+
   const alerts = await query<AlertRow>(`
     SELECT id, email, origin, destination, target_price, is_round_trip, token
     FROM price_alerts

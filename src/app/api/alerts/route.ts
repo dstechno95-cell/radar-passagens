@@ -4,11 +4,30 @@ import { sendAlertConfirmation } from '@/lib/email';
 
 interface AlertRow { id: string; token: string; }
 
+async function ensureTable() {
+  await query(`
+    CREATE TABLE IF NOT EXISTS price_alerts (
+      id               UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+      email            TEXT NOT NULL,
+      origin           CHAR(3) NOT NULL,
+      destination      CHAR(3) NOT NULL,
+      target_price     INTEGER NOT NULL,
+      is_round_trip    BOOLEAN NOT NULL DEFAULT FALSE,
+      active           BOOLEAN NOT NULL DEFAULT TRUE,
+      token            UUID NOT NULL DEFAULT gen_random_uuid(),
+      created_at       TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+      last_notified_at TIMESTAMPTZ
+    )
+  `);
+}
+
 export async function POST(req: NextRequest) {
   try {
     if (!isDbAvailable()) {
       return NextResponse.json({ error: 'Banco de dados não disponível' }, { status: 503 });
     }
+
+    await ensureTable();
 
     const body = await req.json().catch(() => null);
     if (!body) return NextResponse.json({ error: 'Payload inválido' }, { status: 400 });
