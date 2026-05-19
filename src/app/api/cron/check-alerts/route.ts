@@ -41,7 +41,7 @@ export async function GET(req: NextRequest) {
 
   let notified = 0;
 
-  for (const [, routeAlerts] of routeMap) {
+  for (const routeAlerts of Array.from(routeMap.values())) {
     const { origin, destination } = routeAlerts[0];
     const result = await fetchMinPrice(origin, destination);
     if (!result) continue;
