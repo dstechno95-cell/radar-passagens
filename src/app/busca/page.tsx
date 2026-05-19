@@ -40,6 +40,6 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
   };
 }
 
-export default function Page(_: Props) {
+export default function Page() {
   return <BuscaPage />;
 }
