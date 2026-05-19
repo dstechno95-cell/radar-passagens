@@ -2,16 +2,32 @@ import type { Metadata } from 'next';
 import Script from 'next/script';
 import './globals.css';
 
+const APP = process.env.NEXT_PUBLIC_APP_URL || 'https://radar-passagens.vercel.app';
+
 export const metadata: Metadata = {
-  title: 'Radar Passagens — Promoções de Voos',
-  description:
-    'Encontre as melhores promoções de passagens aéreas no Brasil e internacional. Comparamos preços em tempo real e indicamos as melhores oportunidades.',
-  keywords: ['passagens aéreas', 'promoções voos', 'radar passagens', 'comprar passagem barata'],
-  openGraph: {
-    title: 'Radar Passagens',
-    description: 'Radar de promoções de passagens aéreas',
-    type: 'website',
+  metadataBase: new URL(APP),
+  title: {
+    default: 'Radar Passagens — Promoções de Passagens Aéreas',
+    template: '%s | Radar Passagens',
   },
+  description:
+    'Encontre as melhores promoções de passagens aéreas no Brasil e internacional. Comparamos preços em tempo real e mostramos as melhores oportunidades de voo.',
+  keywords: ['passagens aéreas', 'promoções voos', 'radar passagens', 'passagem barata', 'voos baratos', 'comparar passagens'],
+  authors: [{ name: 'Radar Passagens' }],
+  creator: 'Radar Passagens',
+  openGraph: {
+    title: 'Radar Passagens — Promoções de Passagens Aéreas',
+    description: 'Compare preços e encontre as melhores promoções de voos em tempo real.',
+    type: 'website',
+    locale: 'pt_BR',
+    siteName: 'Radar Passagens',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Radar Passagens',
+    description: 'Compare preços e encontre as melhores promoções de voos em tempo real.',
+  },
+  robots: { index: true, follow: true },
   other: {
     'lomadee': '2324685',
     'impact-site-verification': '4edeef75-288f-4c94-9727-f5e836577389',

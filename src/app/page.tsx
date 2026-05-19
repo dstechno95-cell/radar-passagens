@@ -43,11 +43,28 @@ const FEATURES = [
   },
 ];
 
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'Radar Passagens',
+  description: 'Compare preços de passagens aéreas e encontre as melhores promoções em tempo real.',
+  url: process.env.NEXT_PUBLIC_APP_URL || 'https://radar-passagens.vercel.app',
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: {
+      '@type': 'EntryPoint',
+      urlTemplate: `${process.env.NEXT_PUBLIC_APP_URL || 'https://radar-passagens.vercel.app'}/busca?origin={origin}&destination={destination}&departure={departure}`,
+    },
+    'query-input': 'required name=origin required name=destination required name=departure',
+  },
+};
+
 export default function HomePage() {
   const tomorrow = new Date(Date.now() + 86400000).toISOString().split('T')[0];
 
   return (
     <div className="flex min-h-screen flex-col">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <Header />
 
       <main className="flex flex-1 flex-col">
