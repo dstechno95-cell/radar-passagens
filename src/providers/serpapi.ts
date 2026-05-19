@@ -3,8 +3,7 @@ import { getAirport } from '@/lib/airports';
 import { scoreOpportunity } from '@/services/opportunityScorer';
 import { generateId } from '@/lib/utils';
 
-const API_BASE  = 'https://serpapi.com/search.json';
-const TP_MARKER = process.env.TRAVELPAYOUTS_MARKER || '530450';
+const API_BASE = 'https://serpapi.com/search.json';
 
 const AIRLINE_NAMES: Record<string, string> = {
   G3: 'GOL Linhas Aéreas',    LA: 'LATAM Airlines',        JJ: 'LATAM Brasil',
