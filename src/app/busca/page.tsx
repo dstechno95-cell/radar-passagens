@@ -12,6 +12,7 @@ import { SearchSummary } from '@/components/SearchSummary';
 import { NoResults } from '@/components/NoResults';
 import { FlightFilters, SortOption, StopsFilter } from '@/components/FlightFilters';
 import { CompareElsewhere } from '@/components/CompareElsewhere';
+import { PriceAlertModal } from '@/components/PriceAlertModal';
 import { Airline, Flight, SearchResult } from '@/lib/types';
 import { getAirport } from '@/lib/airports';
 import { formatDate } from '@/lib/utils';
@@ -244,6 +245,14 @@ function SearchResults() {
 
                 {/* Sidebar */}
                 <div className="space-y-4">
+                  <PriceAlertModal
+                    origin={origin}
+                    destination={destination}
+                    originCity={originAirport?.city || origin}
+                    destinationCity={destAirport?.city || destination}
+                    currentMinPrice={result.flights.length > 0 ? Math.min(...result.flights.map(f => f.price)) : undefined}
+                    isRoundTrip={!!returnDate}
+                  />
                   <PriceComparator result={result} />
                   <CompareElsewhere
                     origin={origin}

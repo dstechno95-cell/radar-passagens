@@ -59,3 +59,20 @@ CREATE INDEX IF NOT EXISTS idx_flights_origin_dest  ON flights (origin, destinat
 CREATE INDEX IF NOT EXISTS idx_flights_scraped_at   ON flights (scraped_at DESC);
 CREATE INDEX IF NOT EXISTS idx_price_history_route  ON price_history (origin, destination, travel_month);
 CREATE INDEX IF NOT EXISTS idx_searches_created     ON flight_searches (created_at DESC);
+
+-- Price alerts
+CREATE TABLE IF NOT EXISTS price_alerts (
+  id               UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  email            TEXT NOT NULL,
+  origin           CHAR(3) NOT NULL,
+  destination      CHAR(3) NOT NULL,
+  target_price     INTEGER NOT NULL,
+  is_round_trip    BOOLEAN NOT NULL DEFAULT FALSE,
+  active           BOOLEAN NOT NULL DEFAULT TRUE,
+  token            UUID NOT NULL DEFAULT gen_random_uuid(),
+  created_at       TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  last_notified_at TIMESTAMPTZ
+);
+
+CREATE INDEX IF NOT EXISTS idx_alerts_active ON price_alerts (active, origin, destination);
+CREATE INDEX IF NOT EXISTS idx_alerts_email  ON price_alerts (email);
