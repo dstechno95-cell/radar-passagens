@@ -5,8 +5,6 @@ import { generateId } from '@/lib/utils';
 
 const API_V3       = 'https://api.travelpayouts.com/aviasales/v3/prices_for_dates';
 const API_V1_CHEAP = 'https://api.travelpayouts.com/v1/prices/cheap';
-const AVIASALES_BR = 'https://www.aviasales.com';
-const MARKER       = process.env.TRAVELPAYOUTS_MARKER || '530450';
 
 const AIRLINE_MAP: Record<string, { name: string; color: string }> = {
   G3:  { name: 'GOL Linhas Aéreas',    color: '#FF6600' },
@@ -74,17 +72,13 @@ function getAvgPrice(origin: string, dest: string): number {
   return ROUTE_AVGS[`${origin}-${dest}`] ?? ROUTE_AVGS[`${dest}-${origin}`] ?? 1500;
 }
 
-function buildLink(path: string): string {
-  try {
-    const base = path.startsWith('http') ? path : `${AVIASALES_BR}${path}`;
-    const url = new URL(base);
-    url.searchParams.set('marker', MARKER);
-    url.searchParams.set('currency', 'brl');
-    url.searchParams.set('locale', 'pt');
-    return url.toString();
-  } catch {
-    return `${AVIASALES_BR}${path}`;
+function buildDecolarLink(origin: string, dest: string, departureDate: string, returnDate?: string | null): string {
+  const dep = departureDate.slice(0, 10);
+  if (returnDate) {
+    const ret = returnDate.slice(0, 10);
+    return `https://www.decolar.com/shop/flights/results/roundtrip/${origin}/${dest}/${dep}/${ret}/1/0/0`;
   }
+  return `https://www.decolar.com/shop/flights/results/oneway/${origin}/${dest}/${dep}/1/0/0`;
 }
 
 function addDays(dateStr: string, n: number): string {
@@ -280,7 +274,7 @@ export const travelpayoutsProvider: FlightProvider = {
         flights.push({
           id: generateId(), outbound, inbound,
           price: t.price, currency: 'BRL',
-          link:  buildLink(t.link),
+          link:  buildDecolarLink(origin, destination, t.departure_at, t.return_at),
           provider: 'Travelpayouts',
           ...scored,
           averagePrice: Math.round(avgPrice),
@@ -318,7 +312,7 @@ export const travelpayoutsProvider: FlightProvider = {
         flights.push({
           id: generateId(), outbound, inbound,
           price: entry.price, currency: 'BRL',
-          link:  buildLink(entry.link),
+          link:  buildDecolarLink(origin, destination, entry.departure_at, entry.return_at),
           provider: 'Travelpayouts',
           ...scored,
           averagePrice: Math.round(avgPrice),

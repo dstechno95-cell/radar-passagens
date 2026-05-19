@@ -129,11 +129,11 @@ export function FlightCard({ flight, index = 0 }: Props) {
               </p>
               {flight.provider === 'MockProvider' || flight.provider === 'Travelpayouts' ? (
                 <p className="text-[10px] text-amber-500/80 mt-0.5">
-                  {flight.provider === 'MockProvider' ? '⚡ Preço estimado' : '⚠️ Preço indicativo'}
+                  {flight.provider === 'MockProvider' ? '⚡ Preço estimado' : '⚠️ Preço indicativo · Decolar'}
                 </p>
               ) : (
                 <p className="text-[10px] text-green-500/70 mt-0.5">
-                  {flight.provider === 'Google Flights' ? '🔍 Tempo real' : '🥝 Tempo real'}
+                  {flight.provider === 'Google Flights' ? '🔍 Google Flights · Tempo real' : '🥝 Kiwi.com · Tempo real'}
                 </p>
               )}
               {flight.provider === 'Travelpayouts' && (

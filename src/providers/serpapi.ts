@@ -53,16 +53,11 @@ function airlineInfo(iata: string) {
   return { iata, name: AIRLINE_NAMES[iata] ?? iata, color: AIRLINE_COLORS[iata] ?? '#64748b' };
 }
 
-// Build Aviasales affiliate search link (earns Travelpayouts commission)
-function buildAviasalesLink(origin: string, dest: string, date: string, returnDate?: string): string {
-  const dd = date.slice(8, 10);
-  const mm = date.slice(5, 7);
+function buildDecolarLink(origin: string, dest: string, date: string, returnDate?: string): string {
   if (returnDate) {
-    const rdd = returnDate.slice(8, 10);
-    const rmm = returnDate.slice(5, 7);
-    return `https://www.aviasales.com/search/${origin}${dd}${mm}${dest}1${dest}${rdd}${rmm}${origin}1?marker=${TP_MARKER}&currency=brl&locale=pt`;
+    return `https://www.decolar.com/shop/flights/results/roundtrip/${origin}/${dest}/${date}/${returnDate}/1/0/0`;
   }
-  return `https://www.aviasales.com/search/${origin}${dd}${mm}${dest}1?marker=${TP_MARKER}&currency=brl&locale=pt`;
+  return `https://www.decolar.com/shop/flights/results/oneway/${origin}/${dest}/${date}/1/0/0`;
 }
 
 function ap(iata: string, name?: string) {
@@ -182,7 +177,7 @@ export const serpapiProvider: FlightProvider = {
         }
 
         const scored = scoreOpportunity(option.price, avgPrice);
-        const link   = buildAviasalesLink(origin, destination, departureDate, returnDate);
+        const link   = buildDecolarLink(origin, destination, departureDate, returnDate);
 
         return {
           id:           generateId(),
